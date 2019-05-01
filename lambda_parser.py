@@ -1,8 +1,10 @@
+import lambda_ast as AST
+
 class Parser():
 	def __init__(self, lexer):
 		self.lexer = lexer
 
-	def parse():
+	def parse(self):
 		result = term(self, [])
 		self.lexer.match(self.lexer, 'EOF', self.lexer.token)
 		return result
@@ -12,17 +14,18 @@ class Parser():
 			x = self.lexer.assertType(self.lexer, 'LCID', self.lexer.token)
 			self.lexer.match(self.lexer, 'PERIOD', self.lexer.token)
 			term = term(self, [x].concat(ctx))
-			return new AST.Abstraction(x, term)
+			return AST.Abstraction(x, term)
 		else:
-			return application(self, ctx)
+			return AST.Application(self, ctx)
 
 	def application(self, ctx):
-		lhs = this.atom(ctx)
+		lhs = self.atom(ctx)
 		while(True):
-			if not rhs:
+			rhs = self.atom(ctx)
+			if rhs is None:
 				return lhs
 			else:
-				lhs = new AST.Application(lhs, rhs)
+				lhs = AST.Application(lhs, rhs)
 
 	def atom(self, ctx):
 		if(self.lexer.skip(self.lexer, 'LPAREN', self.lexer.token)):
