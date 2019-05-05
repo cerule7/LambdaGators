@@ -3,37 +3,42 @@ import lambda_ast as AST
 class Parser():
 	def __init__(self, lexer):
 		self.lexer = lexer
+		self.varlist = list()
 
-	def parse(self):
-		result = term(self, [])
-		self.lexer.match(self.lexer, 'EOF', self.lexer.token)
-		return result
-
-	def term(self, ctx):
-		if(self.lexer.skip(self.lexer, 'LAMBDA', self.lexer.token)):
-			x = self.lexer.assertType(self.lexer, 'LCID', self.lexer.token)
-			self.lexer.match(self.lexer, 'PERIOD', self.lexer.token)
-			term = term(self, [x].concat(ctx))
+	def term(self):
+		if(self.lexer.skip('LAMBDA', self.lexer.token)):
+			x = self.lexer.assertType('VAR', self.lexer.token)
+			self.lexer.match('PERIOD', self.lexer.token)
+			self.varlist.append(x)
+			term = self.term()
 			return AST.Abstraction(x, term)
 		else:
-			return AST.Application(self, ctx)
+			return self.application()
 
-	def application(self, ctx):
-		lhs = self.atom(ctx)
+	def parse(self):
+		result = self.term()
+		print(self.varlist)
+		self.lexer.match('EOF', self.lexer.token)
+		return result
+
+	def application(self):
+		lhs = self.atom()
 		while(True):
-			rhs = self.atom(ctx)
+			rhs = self.atom()
 			if rhs is None:
 				return lhs
 			else:
 				lhs = AST.Application(lhs, rhs)
 
-	def atom(self, ctx):
-		if(self.lexer.skip(self.lexer, 'LPAREN', self.lexer.token)):
-			term = ctx
-			self.lexer.match(self.lexer, 'RPAREN', self.lexer.token)
+	def atom(self):
+		if(self.lexer.skip('LPAREN', self.lexer.token)):
+			term = self.term()
+			self.lexer.match('RPAREN', self.lexer.token)
 			return term
-		elif(self.lexer.next(self.lexer, 'LCID', self.lexer.token)):
-			x = self.lexer.assertType(self.lexer, 'LCID', self.lexer.token)
-			return AST.Identifier(ctx.indexOf(x))
+		elif(self.lexer.typeMatches('VAR')):
+			x = self.lexer.assertType('VAR', self.lexer.token)
+			if x not in self.varlist:
+				self.varlist.append(x)
+			return AST.Identifier(self.varlist.index(x), x)
 		else:
 			return None
