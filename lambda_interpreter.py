@@ -103,12 +103,13 @@ def betareduce(term):
 				temp = reduced
 
 def main():
-	source = input("Enter lambda calculus here:")
-	source = [x for x in source if x in 'abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ\\.()']
-	lexer = Lexer(source)
-	lexer.token = lexer.nextToken()
-	parser = lambda_parser.Parser(lexer)
-	ast = parser.parse()
-	print("FINAL REDUCTION: " + betareduce(ast).toString())
+	while(True):
+		source = input("Enter lambda calculus here:")
+		source = [x for x in source if x in 'abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ\\.()']
+		lexer = Lexer(source)
+		lexer.token = lexer.nextToken()
+		parser = lambda_parser.Parser(lexer)
+		ast = parser.parse()
+		print("FINAL REDUCTION: " + betareduce(ast).toString())
 
 main()
