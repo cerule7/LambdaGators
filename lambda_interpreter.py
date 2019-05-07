@@ -21,7 +21,7 @@ class Lexer():
 			return Token('EOF', 'none')
 		c = inp[self.index]
 		self.index += 1
-		if(c == '\\' or c == 'λ:'):
+		if(c == '\\' or c == 'λ'):
 			return Token('LAMBDA', 'none')
 		elif(c == '.'):
 			return Token('PERIOD', 'none')
@@ -62,79 +62,31 @@ class Lexer():
 def isValue(node):
 	return isinstance(node, AST.Abstraction)
 
-# # #goes one step at a time (hopefully)
-# def eval(node):
-# 	if isinstance(node, AST.Application()):
-# 		if isValue(node.lhs) and isValue(node.rhs):
-# 			node = substitute(node.rhs, node.lhs.body)
-# 		elif isValue(node.lhs):
-# 			node.rhs = eval(node.rhs)
-# 		else:
-# 			node.lhs = eval(node.lhs)
-# 	elif isValue(node):
-# 		return node
-
-# def traverse(node, index):
-
-
-# def shift(x, node): #shift all free vars in node by x
-	
-	
-# def depth(value, node, depth):
-# 	if isinstance(node, AST.Application()):
-# 		return AST.Application(aux(value, node.lhs, depth), aux(value, node.rhs, depth))
-# 	elif isinstance(node, AST.Abstraction()):
-# 		return AST.Abstraction(node.param, aux(value, abs.body, depth + 1))
-# 	elif isinstance(node, AST.Identifier()):
-# 		if(depth == node.value):
-# 			return shift(depth, value)
-# 		else:
-# 			return node
-
-# def aux(value, node, depth):
-# 	traverse(depth(value, node, depth))
-
-# def subst(value, node):
-# 	return aux(value, node, 0)
-
-# def substitute(value, node): #substitute all vars in node w a dbi of 0 by value
-# 	return shift(-1, subst(shift(1, value), node))
-
 def recursive_sub(old, new, node):
-	print('OLD ' + old.toString())
-	print("NEW " + new.toString())
-	print("NODE "  + node)
 	if isinstance(old, AST.Identifier) and old.name == node:
-			print("RETURNED " + new.toString())
 			return new
 	elif isinstance(old, AST.Application):
 		old.lhs = recursive_sub(old.lhs, new, node)
 		old.rhs = recursive_sub(old.rhs, new, node)
 	elif isinstance(old, AST.Abstraction):
 		if old.param == node:
-			print("SAME NAME")
 			old.param = recursive_sub(old.param, new, node)
-		print(old.body + " " + new.toString())
 		old.body = recursive_sub(old.body, new, node)
-	print("RETURNED OLD AS " + old.toString())
 	return old 
 
 def recursive_reduce(node):
 	if isinstance(node, AST.Identifier) or isinstance(node, AST.Abstraction):
 		return node
 	elif isinstance(node, AST.Application):
-		print("CURRENT NODE " + node.toString())
 		if isinstance(node.lhs, AST.Abstraction):
 			return recursive_sub(node.lhs.body, node.rhs, node.lhs.param)
 		else:
 			newlhs = recursive_reduce(node.lhs)
 			if newlhs != node.lhs:
 				node.lhs = newlhs
-				print("NEW LHS " + node.lhs.toString())
 				return node
 			else:
 				node.rhs = recursive_reduce(node.rhs)
-				print("NEW RHS " + node.rhs.toString())
 				return node
 
 def betareduce(term):
@@ -144,9 +96,7 @@ def betareduce(term):
 		temp = term
 		while(True):
 			term_str = temp.toString()
-			print("TERM STR " + term_str)
 			reduced = recursive_reduce(temp)
-			print("REDUCED " + reduced.toString())
 			if term_str == reduced.toString():
 				return temp
 			else:
@@ -159,8 +109,6 @@ def main():
 	lexer.token = lexer.nextToken()
 	parser = lambda_parser.Parser(lexer)
 	ast = parser.parse()
-	print(ast.lhs.toString())
-	print(ast.rhs.toString())
-	print(betareduce(ast).toString())
+	print("FINAL REDUCTION: " + betareduce(ast).toString())
 
 main()
