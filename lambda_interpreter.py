@@ -122,9 +122,11 @@ def checkGrammar(source):
 
 def main():
 	while(True):
-		source = input("Enter lambda calculus here:")
-		source = [x for x in source if x in 'abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ\\.()']
-		if not checkGrammar(source):
+		first = input("Enter lambda calculus here:")
+		source = [x for x in first if x in 'abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ\\.()']
+		if first != source:
+			print("Error: Unsupported characters")
+		elif not checkGrammar(source):
 			print("Unbalanced parentheses")
 		else:
 			lexer = Lexer(source)
