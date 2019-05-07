@@ -120,13 +120,15 @@ def checkGrammar(source):
     	if source[i] == '\\' or source[i] == 'λ' or source[i] == '.':
     		if source[i] == '.':
 	    		if i + 1 < len(source) - 1 and source[i + 1] not in 'abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ':
+	    			print("No variable after . at " + str(i))
 	    			return False
 	    	else:
 	    		b = False
 	    		for j in range(i + 1, len(source) - 1):
-	    			if j == '.':
+	    			if source[j] == '.':
 	    				b = True
 	    		if not b:
+	    			print("No . after \\ at " + str(i))
 	    			return False
     return (balanced and len(s) == 0)
 
