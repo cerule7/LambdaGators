@@ -12,7 +12,7 @@ class Application():
 		self.lhs = lhs
 
 	def toString(self):
-		return "APP" + self.lhs.toString() + " " + self.rhs.toString()
+		return self.lhs.toString() + " " + self.rhs.toString()
 
 class Identifier():
 	def __init__(self, value, name):
