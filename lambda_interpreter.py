@@ -75,6 +75,7 @@ def recursive_sub(old, new, node):
 	return old 
 
 def recursive_reduce(node):
+	print("VISITING " + node.toString())
 	if isinstance(node, AST.Identifier) or isinstance(node, AST.Abstraction):
 		return node
 	elif isinstance(node, AST.Application):
@@ -93,14 +94,7 @@ def betareduce(term):
 	if isinstance(term, AST.Identifier) or isinstance(term, AST.Abstraction):
 		return term
 	elif isinstance(term, AST.Application):
-		temp = term
-		while(True):
-			term_str = temp.toString()
-			reduced = recursive_reduce(temp)
-			if term_str == reduced.toString():
-				return temp
-			else:
-				temp = reduced
+		return recursive_reduce(term)
 
 def checkGrammar(source):
     #check parens matching
@@ -115,24 +109,33 @@ def checkGrammar(source):
     	else:
     		if len(s) == 0:
     			balanced = False
-    		else: 
+    		else:
     			s.pop()
     	index += 1
     return (balanced and len(s) == 0)
 
 def main():
-	while(True):
-		first = input("Enter lambda calculus here:")
-		source = [x for x in first if x in 'abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ\\.()']
-		if first != source:
-			print("Error: Unsupported characters")
-		elif not checkGrammar(source):
-			print("Unbalanced parentheses")
+	first = input("Enter lambda calculus here:")
+	source = ""
+	for c in first:
+		if c in 'abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ\\.() ':
+			source = source + c
 		else:
-			lexer = Lexer(source)
-			lexer.token = lexer.nextToken()
-			parser = lambda_parser.Parser(lexer)
-			ast = parser.parse()
-			print("FINAL REDUCTION: " + betareduce(ast).toString())
+			print("Unsupported characters")
+			return
+	source = [p for p in source if p != ' ']
+	if not checkGrammar(source):
+		print("Unbalanced parentheses")
+	else:
+		lexer = Lexer(source)
+		lexer.token = lexer.nextToken()
+		parser = lambda_parser.Parser(lexer)
+		ast = parser.parse()
+		i = input("Type n to continue or q to end: ")
+		while(i != 'q'):
+			ast = betareduce(ast)
+			print("REDUCED TERM: " + ast.toString())
+			i = input("Type n to continue or q to end: ")
+		print("FINAL REDUCTION: " + ast.toString())
 
 main()
