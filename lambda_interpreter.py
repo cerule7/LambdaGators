@@ -104,7 +104,7 @@ def betareduce(term):
 
 def main():
 	source = input("Enter lambda calculus here:")
-	source = [x for x in source if x != ' '] #strip whitespace
+	source = [x for x in source if x in 'abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ\\.()']
 	lexer = Lexer(source)
 	lexer.token = lexer.nextToken()
 	parser = lambda_parser.Parser(lexer)
