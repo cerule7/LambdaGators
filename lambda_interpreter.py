@@ -102,14 +102,35 @@ def betareduce(term):
 			else:
 				temp = reduced
 
+def checkGrammar(source):
+    #check parens matching
+    s = list()
+    balanced = True
+    index = 0
+    source = [x for x in source if x == '(' or x == ')']
+    while index < len(source) and balanced:
+    	c = source[index]
+    	if c == '(':
+    		s.append(c)
+    	else:
+    		if len(s) == 0:
+    			balanced = False
+    		else: 
+    			s.pop()
+    	index += 1
+    return (balanced and len(s) == 0)
+
 def main():
 	while(True):
 		source = input("Enter lambda calculus here:")
 		source = [x for x in source if x in 'abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ\\.()']
-		lexer = Lexer(source)
-		lexer.token = lexer.nextToken()
-		parser = lambda_parser.Parser(lexer)
-		ast = parser.parse()
-		print("FINAL REDUCTION: " + betareduce(ast).toString())
+		if not checkGrammar(source):
+			print("Unbalanced parentheses")
+		else:
+			lexer = Lexer(source)
+			lexer.token = lexer.nextToken()
+			parser = lambda_parser.Parser(lexer)
+			ast = parser.parse()
+			print("FINAL REDUCTION: " + betareduce(ast).toString())
 
 main()
