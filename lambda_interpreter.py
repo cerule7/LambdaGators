@@ -101,9 +101,9 @@ def checkGrammar(source):
     s = list()
     balanced = True
     index = 0
-    source = [x for x in source if x == '(' or x == ')']
-    while index < len(source) and balanced:
-    	c = source[index]
+    temp = [x for x in source if x == '(' or x == ')']
+    while index < len(temp) and balanced:
+    	c = temp[index]
     	if c == '(':
     		s.append(c)
     	else:
@@ -112,20 +112,36 @@ def checkGrammar(source):
     		else:
     			s.pop()
     	index += 1
+    #correct lambda and dot placement 
+    print(len(source))
+    if len(source) == 1 and (source[0] == '\\' or source[0] == 'λ' or source[0] == '.'):
+    	return False
+    for i in range(0, len(source) - 1):
+    	if source[i] == '\\' or source[i] == 'λ' or source[i] == '.':
+    		if source[i] == '.':
+	    		if i + 1 < len(source) - 1 and source[i + 1] not in 'abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ':
+	    			return False
+	    	else:
+	    		b = False
+	    		for j in range(i + 1, len(source) - 1):
+	    			if j == '.':
+	    				b = True
+	    		if not b:
+	    			return False
     return (balanced and len(s) == 0)
 
 def main():
 	first = input("Enter lambda calculus here:")
 	source = ""
 	for c in first:
-		if c in 'abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ\\.() ':
+		if c in 'abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ\\.()λ ':
 			source = source + c
 		else:
 			print("Unsupported characters")
 			return
 	source = [p for p in source if p != ' ']
 	if not checkGrammar(source):
-		print("Unbalanced parentheses")
+		print("Incorrect syntax")
 	else:
 		lexer = Lexer(source)
 		lexer.token = lexer.nextToken()
