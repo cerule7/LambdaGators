@@ -134,8 +134,20 @@ def main():
 		i = input("Type n to continue or q to end: ")
 		while(i != 'q'):
 			ast = betareduce(ast)
+			nodelist = genNodeList(ast, [])
 			print("REDUCED TERM: " + ast.toString())
+			print("NODES IN TERM: ")
+			print([n.toString() for n in nodelist])
 			i = input("Type n to continue or q to end: ")
 		print("FINAL REDUCTION: " + ast.toString())
+
+def genNodeList(node, nodelist):
+	if isinstance(node, AST.Identifier) or isinstance(node, AST.Abstraction):
+		nodelist.append(node)
+	elif isinstance(node, AST.Application):
+		nodelist = genNodeList(node.lhs, nodelist)
+		nodelist = genNodeList(node.rhs, nodelist)
+	return nodelist
+
 
 main()

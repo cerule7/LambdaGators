@@ -4,7 +4,7 @@ class Abstraction():
 		self.body = body
 
 	def toString(self):
-		return ('λ' + self.param + '.' + self.body.toString())
+		return ('(λ' + self.param + '.' + self.body.toString() + ')')
 
 class Application():
 	def __init__(self, lhs, rhs):
