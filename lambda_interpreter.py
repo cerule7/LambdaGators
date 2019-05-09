@@ -132,6 +132,14 @@ def checkGrammar(source):
 	    			return False
     return (balanced and len(s) == 0)
 
+def genNodeList(node, nodelist):
+	if isinstance(node, AST.Identifier) or isinstance(node, AST.Abstraction):
+		nodelist.append(node)
+	elif isinstance(node, AST.Application):
+		nodelist = genNodeList(node.lhs, nodelist)
+		nodelist = genNodeList(node.rhs, nodelist)
+	return nodelist
+
 def main():
 	first = input("Enter lambda calculus here:")
 	source = ""
@@ -158,14 +166,5 @@ def main():
 			print([n.toString() for n in nodelist])
 			i = input("Type n to continue or q to end: ")
 		print("FINAL REDUCTION: " + ast.toString())
-
-def genNodeList(node, nodelist):
-	if isinstance(node, AST.Identifier) or isinstance(node, AST.Abstraction):
-		nodelist.append(node)
-	elif isinstance(node, AST.Application):
-		nodelist = genNodeList(node.lhs, nodelist)
-		nodelist = genNodeList(node.rhs, nodelist)
-	return nodelist
-
 
 main()
