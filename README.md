@@ -1,3 +1,9 @@
-** Lambdagators: Lambda Calculus Crocodiles **
+# LambdaGators: Lambda Calculus Crocodiles #
+By Anarav Patel, Charles Rule, and Michael Rizzo 
 
-By Charles Rule, Anarav Patel and Michael Rizzo for CS 314
+For CS-314 Principles of Programming Languages 
+Spring 2019 with Professor Ames
+
+## Directions ##
+Enter a Lambda Expression into the textbar 
+To display the first step of parsing the
