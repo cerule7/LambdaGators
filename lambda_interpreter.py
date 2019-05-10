@@ -151,7 +151,7 @@ def main():
 			print("Unsupported characters")
 			return
 	source = [p for p in source if p != ' '] #strip whitespace
- 	if not checkGrammar(source):  
+	if not checkGrammar(source):
 		print("Incorrect syntax")
 	else:
 		lexer = Lexer(source)
