@@ -139,6 +139,26 @@ def genNodeList(node, nodelist):
 		nodelist = genNodeList(node.rhs, nodelist)
 	return nodelist
 
+def get_ast(input):
+	source = ""
+	for c in input:
+		if c in 'abcdefghijklmnopqrstuvwxyz\\.()λ ':
+			source = source + c
+		else:
+			err_msg = 'The lambda input had unsupported characters'
+			print(err_msg)
+			return False, err_msg
+	source = [p for p in source if p != ' ']  # strip whitespace
+	if not checkGrammar(source):
+		err_msg = 'The lambda input is invalid syntax according to our grammar'
+		print(err_msg)
+		return False, err_msg
+	lexer = Lexer(source)
+	lexer.token = lexer.nextToken()
+	parser = lambda_parser.Parser(lexer)
+	ast = parser.parse()
+	return True, ast
+
 def main():
 	first = input("Enter lambda calculus here:")
 	source = ""
@@ -165,6 +185,5 @@ def main():
 			print("NODES IN TERM: ")
 			print([n.toString() for n in nodelist])
 			i = input("Type n to continue or q to end: ")
-		print("FINAL REDUCTION: " + ast.toString())
-
+		print("FINAL REDUCTION: " + ast.toString())w
 main()
