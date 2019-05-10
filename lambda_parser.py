@@ -3,7 +3,7 @@ import lambda_ast as AST
 class Parser():
 	def __init__(self, lexer):
 		self.lexer = lexer
-		self.varlist = list()
+		self.varlist = list() #this is where all variables are stored
 
 	def term(self):
 		#if current token is a lambda, find parameter and add to varlist
