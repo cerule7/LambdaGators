@@ -1,4 +1,4 @@
-import pygame as pg
+import pygame
 import os
 import random
 
@@ -20,40 +20,40 @@ def render(varList):
                 
                 newColor = randomColor() #new random color for new var
                 
-                tempGator = pg.image.load('Resources/alligator.png') #loads temp Surfaces
-                tempEgg = pg.image.load('Resources/egg.png')
+                tempygameator = pygame.image.load('Resources/alligator.png') #loads temp Surfaces
+                tempEgg = pygame.image.load('Resources/egg.png')
 
-                pg.transform.threshold(tempGator, tempGator, baseColor, thresh, newColor, 1, None, True) #makes Surfaces the new var color
-                pg.transform.threshold(tempEgg, tempEgg, baseColor, thresh, newColor, 1, None, True) 
+                pygame.transform.threshold(tempygameator, tempygameator, baseColor, thresh, newColor, 1, None, True) #makes Surfaces the new var color
+                pygame.transform.threshold(tempEgg, tempEgg, baseColor, thresh, newColor, 1, None, True) 
 
-                imgDict[var]['alligator'] = tempGator #adds gator and egg to var sub-dict 
+                imgDict[var]['alligator'] = tempygameator #adds gator and egg to var sub-dict 
                 imgDict[var]['egg'] = tempEgg
         
-        imgDict["dead"] = pg.image.load('Resources/dead_alligator.png')
+        imgDict["dead"] = pygame.image.load('Resources/dead_alligator.png')
         return imgDict
 
 test = ["a" , "b", "c", "d", "e", "f", "g"]
 images = render(test)
 
-pg.init()
-screen = pg.display.set_mode((1260, 700))
+pygame.init()
+screen = pygame.display.set_mode((1260, 700))
 done = False
-clock = pg.time.Clock()
+clock = pygame.time.Clock()
  
 while not done:
-        for event in pg.event.get():
-                if event.type == pg.QUIT:
+        for event in pygame.event.get():
+                if event.type == pygame.QUIT:
                         done = True
          
         screen.fill((255, 255, 255))
 
         screen.blit(images["a"]["alligator"], (100, 0))
-        screen.blit(images["b"]["alligator"], (200, 100))
+        screen.blit(images["b"]["egg"], (150, 100))
         screen.blit(images["c"]["alligator"], (300, 200))
-        screen.blit(images["d"]["alligator"], (400, 300))
+        screen.blit(images["d"]["egg"], (100, 100))
         screen.blit(images["e"]["alligator"], (500, 400))
         screen.blit(images["f"]["alligator"], (600, 500))
         screen.blit(images["g"]["alligator"], (700, 600))
          
-        pg.display.flip()
+        pygame.display.flip()
         clock.tick(60)

@@ -2,11 +2,42 @@ import pygame
 import pygame_textinput
 import os
 import random
+import string
 
+def randomColor():
+    r = random.randint(0, 255)
+    g = random.randint(0, 255)
+    b = random.randint(0, 255)
 
+    return (r, g, b)
+        
+def makeLibrary():
+    baseColor = (65, 195, 172) #constant value of the base color gator 
+    thresh = (0, 0, 0, 0) #threshold value for pygame transform 
+
+    imgLib = {} #dictionary of variables to reference alligator/func or egg/var of variable specific color
+        
+    for char in string.ascii_lowercase:
+            imgLib[char] = {}  #sub-dictionary per variable
+                
+            newColor = randomColor() #new random color for new var
+                
+            tempGator = pygame.image.load('Resources/alligator.png') #loads temp Surfaces
+            tempEgg = pygame.image.load('Resources/egg.png')
+
+            pygame.transform.threshold(tempGator, tempGator, baseColor, thresh, newColor, 1, None, True) #makes Surfaces the new var color
+            pygame.transform.threshold(tempEgg, tempEgg, baseColor, thresh, newColor, 1, None, True) 
+
+            imgLib[char]['alligator'] = tempGator #adds gator and egg to var sub-dict 
+            imgLib[char]['egg'] = tempEgg
+        
+    imgLib["dead"] = pygame.image.load('Resources/dead_alligator.png')
+
+    return imgLib
 
 class App:
     def __init__(self):
+        self.imageLibrary = makeLibrary()
         self._running = True
         self._display_surf = None
         self.size = self.width, self.height = 1280, 720
@@ -41,8 +72,10 @@ class App:
                 self.typing = False
 
             if self.next_button.collidepoint(mousePos):
-                if len(self.input_box.get_text()) != 0:
-                    self.lambda_array.append(self.input_box.get_text())
+                    if len(self.input_box.get_text()) != 0:
+                        self.lambda_array.append(self.input_box.get_text())
+
+                        self._display_surf.blit(self.imageLibrary['g']["alligator"], (100, 25))
 
             elif self.prev_button.collidepoint(mousePos):
                 self.lambda_index = max(self.lambda_index-1, 0)
