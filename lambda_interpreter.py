@@ -113,7 +113,6 @@ def checkGrammar(source):
     			s.pop()
     	index += 1
     #correct lambda and dot placement 
-    print(len(source))
     if len(source) == 1 and (source[0] == '\\' or source[0] == 'λ' or source[0] == '.'):
     	return False
     for i in range(0, len(source) - 1):
