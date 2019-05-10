@@ -21,43 +21,58 @@ class App:
         self.search_box = self.add_search_box()
         self.clock = pygame.time.Clock()
         self.fps = 60
-        self.typing = False
+        self.next_button_color = (255, 0, 0)
+        self.disabled_next_button_color = (255, 200, 200)
+        self.prev_button_color = (0, 255, 0)
+        self.disabled_prev_button_color = (200, 255, 200)
         self._running = True
         return True
 
     def on_event(self, event):
         if event.type == pygame.QUIT:
             self._running = False
-
-        if event.type == pygame.MOUSEBUTTONDOWN:
-            mousePos = event.pos
-            if self.search_box.collidepoint(mousePos):
-                self.typing = True
-            else:
-                self.typing = False
-
-            if self.next_button.collidepoint(mousePos):
-                if len(self.input_box.get_text()) != 0:
+        if event.type == pygame.KEYDOWN:
+            if event.key == pygame.K_RETURN:
+                self.input_box.typing = False
+                if self.lambda_index < 0 or (self.lambda_index < len(self.lambda_array) and self.input_box.get_text() != self.lambda_array[self.lambda_index]):
                     self.lambda_array.append(self.input_box.get_text())
-            elif self.prev_button.collidepoint(mousePos):
-                self.lambda_index = max(self.lambda_index-1, 0)
+                    self.lambda_index += 1
+                    print(self.lambda_array)
+        if event.type == pygame.MOUSEBUTTONDOWN:
+            mouse_pos = event.pos
+            if self.search_box.collidepoint(mouse_pos):
+                self.input_box.typing = True
+            else:
+                self.input_box.typing = False
 
+            if self.next_button.collidepoint(mouse_pos):
+                if len(self.input_box.get_text()) != 0:
+                    if self.lambda_index == len(self.lambda_array) - 1 and self.input_box.get_text() != self.lambda_array[self.lambda_index]:
+                        self.lambda_array.append(self.input_box.get_text())
+                    else:
+                        self.lambda_index += 1
+            elif self.prev_button.collidepoint(mouse_pos):
+                if self.lambda_index > 0:
+                    self.lambda_index = max(self.lambda_index-1, 0)
 
     def on_loop(self, events):
-        if self.typing and self.input_box.update(events):
-            self.typing = False
-            self.lambda_array.append(self.input_box.get_text())
-            self.lambda_index += 1
-            print(self.lambda_array)
+        if self.input_box.typing:
+            self.input_box.update(events)
+
+        if self.input_box.get_surface().get_width() > self.search_box.width - 10:
+            self.input_box.cursor_position -= 1
+            self.input_box.input_string = self.input_box.input_string[:-1]
 
     def on_render(self):
         self._display_surf.fill(self.background)
-        pygame.draw.rect(self._display_surf, (255, 0, 0), self.next_button)
-        pygame.draw.rect(self._display_surf, (0, 255, 0) if self.lambda_index > 0 else (200, 255, 200),
-                         self.prev_button)
+        color = self.next_button_color if self.lambda_index != len(
+            self.lambda_array) - 1 else self.disabled_next_button_color
+        pygame.draw.rect(self._display_surf, color, self.next_button)
+        color = self.prev_button_color if self.lambda_index > 0 else self.disabled_prev_button_color
+        pygame.draw.rect(self._display_surf, color, self.prev_button)
         self._display_surf.blit(self.input_box.get_surface(), (
-            self.search_box.x + 10, self.search_box.y + (self.search_box.height - self.input_box.get_surface().get_height()) / 2),
-                                (0, 0, self.search_box.width - 35, self.search_box.height))
+            self.search_box.x + 10,
+            self.search_box.y + (self.search_box.height - self.input_box.get_surface().get_height()) / 2))
         pygame.draw.rect(self._display_surf, pygame.Color('black'), self.search_box, 2)
         text_surface = self.font.render("Next", True, pygame.Color('black'))
         self._display_surf.blit(text_surface, (
@@ -67,9 +82,7 @@ class App:
         self._display_surf.blit(text_surface, (
             self.prev_button.x + (self.prev_button.width - text_surface.get_width()) / 2,
             self.prev_button.y + (self.prev_button.height - text_surface.get_height()) / 2))
-
         pygame.display.update()
-        pass
 
     def on_cleanup(self):
         pygame.quit()
