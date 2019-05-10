@@ -3,18 +3,18 @@ import os
 import random
 
 def randomColor():
-        x = random.randint(10, 240)
-        y = random.randint(10, 240)
-        z = random.randint(10, 240)
+        r = random.randint(0, 255)
+        g = random.randint(0, 255)
+        b = random.randint(0, 255)
 
-        return (x, y, z)
-
+        return (r, g, b)
+        
 def render(varList):
         baseColor = (65, 195, 172) #constant value of the base color gator 
         thresh = (0, 0, 0, 0) #threshold value for pygame transform 
 
         imgDict = {} #dictionary of variables to reference alligator/func or egg/var of variable specific color
-
+        
         for var in varList:
                 imgDict[var] = {} #sub-dictionary per variable
                 
@@ -32,11 +32,11 @@ def render(varList):
         imgDict["dead"] = pg.image.load('Resources/dead_alligator.png')
         return imgDict
 
-test = ["a" , "b", "c"]
+test = ["a" , "b", "c", "d", "e", "f", "g"]
 images = render(test)
 
 pg.init()
-screen = pg.display.set_mode((1000, 750))
+screen = pg.display.set_mode((1260, 700))
 done = False
 clock = pg.time.Clock()
  
@@ -47,9 +47,13 @@ while not done:
          
         screen.fill((255, 255, 255))
 
-        screen.blit(images["a"]["alligator"], (20, 20))
-        screen.blit(images["b"]["egg"], (20, 115))
-        screen.blit(images["dead"], (20, 200))
+        screen.blit(images["a"]["alligator"], (100, 0))
+        screen.blit(images["b"]["alligator"], (200, 100))
+        screen.blit(images["c"]["alligator"], (300, 200))
+        screen.blit(images["d"]["alligator"], (400, 300))
+        screen.blit(images["e"]["alligator"], (500, 400))
+        screen.blit(images["f"]["alligator"], (600, 500))
+        screen.blit(images["g"]["alligator"], (700, 600))
          
         pg.display.flip()
         clock.tick(60)
