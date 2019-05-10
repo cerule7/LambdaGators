@@ -119,7 +119,7 @@ def checkGrammar(source):
     for i in range(0, len(source) - 1):
     	if source[i] == '\\' or source[i] == 'λ' or source[i] == '.':
     		if source[i] == '.':
-	    		if i + 1 < len(source) - 1 and source[i + 1] not in 'abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ':
+	    		if i + 1 < len(source) - 1 and source[i + 1] not in 'abcdefghijklmnopqrstuvwxyz':
 	    			print("No variable after . at " + str(i))
 	    			return False
 	    	else:
@@ -145,7 +145,7 @@ def main():
 	source = ""
 	#make sure that all chars in the input are accepted
 	for c in first:
-		if c in 'abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ\\.()λ ':
+		if c in 'abcdefghijklmnopqrstuvwxyz\\.()λ ':
 			source = source + c
 		else:
 			print("Unsupported characters")
