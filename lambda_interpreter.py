@@ -9,13 +9,13 @@ class Token():
 	def toString(self):
 		return "TOKEN TYPE: " + self.type + " VALUE: " + self.value
 
-class Lexer():
+class Lexer(): #this is responsible for tokenizing input
 	def __init__(self, inp):
-		self.input = inp
-		self.index = 0
-		self.token = None
+		self.input = inp 
+		self.index = 0 #current index in string
+		self.token = None #current token
 
-	def nextToken(self):
+	def nextToken(self): #move to next char, update index, return appropriate token
 		inp = self.input
 		if self.index >= len(inp):
 			return Token('EOF', 'none')
@@ -143,21 +143,22 @@ def genNodeList(node, nodelist):
 def main():
 	first = input("Enter lambda calculus here:")
 	source = ""
+	#make sure that all chars in the input are accepted
 	for c in first:
 		if c in 'abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ\\.()λ ':
 			source = source + c
 		else:
 			print("Unsupported characters")
 			return
-	source = [p for p in source if p != ' ']
-	if not checkGrammar(source):
+	source = [p for p in source if p != ' '] #strip whitespace
+ 	if not checkGrammar(source):  
 		print("Incorrect syntax")
 	else:
 		lexer = Lexer(source)
-		lexer.token = lexer.nextToken()
-		parser = lambda_parser.Parser(lexer)
-		ast = parser.parse()
-		i = input("Type n to continue or q to end: ")
+		lexer.token = lexer.nextToken() #feed in first token
+		parser = lambda_parser.Parser(lexer) 
+		ast = parser.parse() #parser returns topmost AST node
+		i = input("Type n to continue or q to end: ") #will change later to work with pygame
 		while(i != 'q'):
 			ast = betareduce(ast)
 			nodelist = genNodeList(ast, [])
