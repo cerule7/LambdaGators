@@ -1,8 +1,47 @@
 import pygame
 import pygame_textinput
+import os
+import random
+import string 
+
+# alligator.png, dead_alligator.png ~ 300 x 100
+# egg.png ~ 100 x 100
+
+def randomColor():
+    r = random.randint(0, 255)
+    g = random.randint(0, 255)
+    b = random.randint(0, 255)
+
+    return (r, g, b)
+        
+def makeLibrary():
+    baseColor = (65, 195, 172) #constant value of the base color gator 
+    thresh = (0, 0, 0, 0) #threshold value for pygame transform 
+
+    imgLib = {} #dictionary of variables to reference alligator/func or egg/var of variable specific color
+        
+    for char in string.ascii_lowercase:
+            imgLib[char] = {}  #sub-dictionary per variable
+                
+            newColor = randomColor() #new random color for new var
+                
+            tempGator = pygame.image.load('Resources/alligator.png') #loads temp Surfaces
+            tempEgg = pygame.image.load('Resources/egg.png')
+
+            pygame.transform.threshold(tempGator, tempGator, baseColor, thresh, newColor, 1, None, True) #makes Surfaces the new var color
+            pygame.transform.threshold(tempEgg, tempEgg, baseColor, thresh, newColor, 1, None, True) 
+
+            imgLib[char]['alligator'] = tempGator #adds gator and egg to var sub-dict 
+            imgLib[char]['egg'] = tempEgg
+        
+    imgLib["dead"] = pygame.image.load('Resources/dead_alligator.png')
+    
+    return imgLib
 
 class App:
     def __init__(self):
+        self.imageLibrary = makeLibrary()
+        self.varLibrary = {} #dict/collection of tuples of destination surfaces when using the transform.scale or smoothscale
         self._running = True
         self._display_surf = None
         self.size = self.width, self.height = 1280, 720
@@ -12,7 +51,7 @@ class App:
         self._display_surf = pygame.display.set_mode(self.size, pygame.HWSURFACE | pygame.DOUBLEBUF)
         self.background = (255, 255, 255)
         self.font = pygame.font.Font(None, 32)
-        pygame.display.set_caption('Lambdagators')
+        pygame.display.set_caption('LambdaGators')
         self.next_button = self.add_next_button()
         self.prev_button = self.add_prev_button()
         self.input_box = pygame_textinput.TextInput()
@@ -114,7 +153,6 @@ class App:
         x = self.prev_button.x + self.prev_button.width + 10
         width = self.next_button.x - (x + 10)
         return pygame.Rect(x, self.next_button.y, width, self.next_button.height)
-
 
 if __name__ == "__main__":
     myApp = App()
