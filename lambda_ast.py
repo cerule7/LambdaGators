@@ -6,7 +6,7 @@ class Abstraction():
 		self.body = body
 
 	def toString(self):
-		return ('(λ' + self.param + '.' + self.body.toString() + ')')
+		return ('ABS (λ' + self.param + '.' + self.body.toString() + ')')
 
 class Application():
 	def __init__(self, lhs, rhs):
@@ -14,7 +14,7 @@ class Application():
 		self.lhs = lhs #left hand side
 
 	def toString(self):
-		return self.lhs.toString() + self.rhs.toString()
+		return ("APP " + self.lhs.toString() + self.rhs.toString())
 
 class Identifier(): #aka variable
 	def __init__(self, value, name):
@@ -22,4 +22,4 @@ class Identifier(): #aka variable
 		self.name = name
 
 	def toString(self):
-		return self.name
+		return ("ID " + self.name)

@@ -189,8 +189,6 @@ class App:
                     self.resize_surfaces()
                     self.lambda_array.append((input_text, data, self.alligator_surfs))
                     self.lambda_index += 1
-                    print(self.alligator_surfs)
-                    print(self.lambda_array)
                     return True
         return False
 
