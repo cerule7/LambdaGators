@@ -11,7 +11,7 @@ import string
 ALIVE_ALLIGATOR_IMG_KEY = 'alligator'
 EGG_IMG_KEY = 'egg'
 DEAD_ALLIGATOR_IMG_KEY = 'dead'
-SEPARATION_DISTANCE = 20
+SEPARATION_DISTANCE = 10
 ALLIGATOR_BASE_WIDTH = 300
 ALLIGATOR_BASE_HEIGHT = 74
 EGG_BASE_WIDTH = EGG_BASE_HEIGHT = 100
@@ -252,8 +252,8 @@ class App:
 
         width_ratio = ALLIGATOR_BASE_WIDTH / EGG_BASE_WIDTH
         height_ratio = ALLIGATOR_BASE_HEIGHT / EGG_BASE_HEIGHT
-        surf_width = min(self.canvas.width / (max_x_alligators * width_ratio + max_x_eggs) - total_x_seperation, EGG_BASE_WIDTH)
-        surf_height = min(self.canvas.height / (max_y_alligators * height_ratio + max_y_eggs) - total_y_seperation, EGG_BASE_HEIGHT)
+        surf_width = min((self.canvas.width - total_x_seperation) / (max_x_alligators * width_ratio + max_x_eggs), EGG_BASE_WIDTH)
+        surf_height = min((self.canvas.height - total_y_seperation) / (max_y_alligators * height_ratio + max_y_eggs), EGG_BASE_HEIGHT)
         drawing_width = max((max_x_alligators * width_ratio * surf_width, max_x_eggs * surf_width))
         drawing_height = max((max_y_alligators * height_ratio * surf_height, max_y_eggs * surf_height))
         drawing_x = self.canvas.x + (self.canvas.width - (drawing_width + total_x_seperation)) / 2
