@@ -5,7 +5,7 @@ class Parser():
 		self.lexer = lexer
 		self.varlist = list() #this is where all variables are stored
 
-	def term(self):
+	def term(self): #application or abstraction
 		#if current token is a lambda, find parameter and add to varlist
 		if(self.lexer.skip('LAMBDA', self.lexer.token)):
 			x = self.lexer.assertType('VAR', self.lexer.token)
@@ -22,7 +22,7 @@ class Parser():
 		self.lexer.match('EOF', self.lexer.token)
 		return result
 
-	def application(self): #for making applications
+	def application(self): #application is made of either an app followed by an atom or just an atom
 		lhs = self.atom()
 		while(True):
 			rhs = self.atom() #find right hand side of application
@@ -31,7 +31,7 @@ class Parser():
 			else:
 				lhs = AST.Application(lhs, rhs)
 
-	def atom(self):
+	def atom(self): #a var or a term in parentheses
 		#if ( then create a lambda application and continue until )
 		if(self.lexer.skip('LPAREN', self.lexer.token)):
 			term = self.term()
