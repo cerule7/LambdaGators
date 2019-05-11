@@ -36,7 +36,7 @@ x
 ```
 These will be represented as eggs when an illustration is generated.
 
-A function is usually denoted with a "λ" lowercase lambda  symbol but for convience sake, we chose a "\" foward-slash. A basic function has two parts, the parameter and the body, which are both collections of variables:
+A function is usually denoted with a "λ" lowercase lambda  symbol but for convience sake, we chose a "\\" foward-slash. A basic function has two parts, the parameter and the body, which are both collections of variables:
 ```
 \<parameters>.<body>
 
@@ -55,7 +55,7 @@ An application is a function next to another variable or function:
 (\x.\y.abc)def
 ```
 
-In the application window, type any combination of the three parts above into the textbar and hit enter and Voila! Alligators and Eggs appear!
+In the application window, type any combination of the three parts above into the textbar and hit enter and voila! Alligators and eggs appear!
 
 Click the next button to perform the first step of reduction on your function. The illustration will update. After this you can keep clicking next until the expression is completely reduced or you can click the previous button to go back a step in the reduction. Finally you can repeat the whole process with a new expression. To quit, click the exit button. 
 
