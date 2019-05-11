@@ -167,7 +167,24 @@ def multiparams(source):
 		i += 1
 	return source
 
-print(multiparams('(λxy.x)'))
+def alphaConvert(source):
+	i = 0
+	bvs = list()
+	while(i < len(source)):
+		if source[i] == '(':
+			j = i
+			while(source[j] != ')'):
+				if source[j] in 'abcdefghijklmnopqrstuvwxyz':
+					bvs.append(source[j])
+				j += 1
+			i += j
+		elif source[i] in bvs:
+			for c in 'abcdefghijklmnopqrstuvwxyz':
+				if c not in bvs:
+					source = source[0:i] + c + source[i+1:]
+					break
+		i += 1
+	return source
 
 def get_ast(input):
 	input = [p for p in input if p != ' ']
@@ -183,7 +200,7 @@ def get_ast(input):
 		err_msg = 'The lambda input is invalid syntax according to our grammar'
 		print(err_msg)
 		return False, err_msg
-	source = multiparams(source)
+	source = alphaConvert(multiparams(source))
 	lexer = Lexer(source)
 	lexer.token = lexer.nextToken()
 	parser = lambda_parser.Parser(lexer)
