@@ -81,6 +81,7 @@ class App:
     def on_event(self, event):
         if event.type == pygame.QUIT:
             self._running = False
+
         if event.type == pygame.KEYDOWN:
             if event.key == pygame.K_RETURN:
                 self.parse_search_box_input(False)
@@ -184,6 +185,9 @@ class App:
                         input_text = data.toString()
                         self.input_box.input_string = input_text
                         self.input_box.update([])
+                    else:
+                        self.lambda_array = []
+                        self.lambda_index = -1
                     self.alligator_surfs = {}
                     self.generate_surfaces(data)
                     self.resize_surfaces()
