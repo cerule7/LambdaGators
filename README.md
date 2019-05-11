@@ -25,7 +25,7 @@ To install these libraries, there exists a pip install for everything except Pyg
 
 Then run FILENAME with Python 3.6 or newer, and an application window should appear. 
 
-### How to Use LambdaGators ###
+## How to Use LambdaGators ##
 To use LambdaGators, let us first review the essential parts of a lambda expression.
 
 There are three components, the variable, the function and the application.
@@ -61,3 +61,6 @@ An application is a function next to another variable or function:
 
 In the application window, type any combination of the three parts above into the textbar and hit enter and Voila! Alligators and Eggs appear!
 
+Click the next button to perform the first step of reduction on your function. The illustration will update. After this you can keep clicking next until the expression is completely reduced or you can click the previous button to go back a step in the reduction. Finally you can repeat the whole process with a new expression. To quit, click the exit button. 
+
+Have fun illustrating lambda calculus!
