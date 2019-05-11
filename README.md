@@ -3,7 +3,7 @@ By Anarav Patel, Charles Rule, and Michael Rizzo
 
 For CS-314 Principles of Programming Languages Spring 2019 with Professor Ames. The goal was to make an application that can dynamically illustrate the computational steps of Lambda Calculus with the Alligator analogy. We loved this analogy as much as Professor Ames and it helped demystify lambda calculus by turning it into a fun subject. We wanted to take it one step further by making it into an interactive version that goes beyond basic expressions. We hope future students will want to use our final project and have the same enjoyable experience.  
 
-We would like to acknowledge Bret Victor and [Worrydream.com](http://worrydream.com/AlligatorEggs/) for the initial concept. This is the same source that Professor Ames used in class. As well, we would like to thank Silas Gyger for his open source [Pygame_TextInput.py module.](https://github.com/Nearoo/pygame-text-input)
+We would like to acknowledge Bret Victor for [the initial concept.](http://worrydream.com/AlligatorEggs/) This is the same source that Professor Ames used in class. As well, we would like to thank Silas Gyger for his open source [Pygame_TextInput.py module.](https://github.com/Nearoo/pygame-text-input)
 
 ## Getting Started ##
 There are two ways to install our project: downloading the executable or downloading the repository and running FILENAME.
@@ -16,12 +16,9 @@ The libraries our project uses are
 ```
 [Pygame](https://www.pygame.org/)
 [Pygame_TextInput](https://github.com/Nearoo/pygame-text-input)
-Python3 os 
-Python3 random 
-Python3 string 
 ```
 
-To install these libraries, there exists a pip install for everything except Pygame_TextInput. A version of this library is provided in the repository or can be found [here.](https://github.com/Nearoo/pygame-text-input)
+To install these libraries, there exists a pip install for Pygame but not Pygame_TextInput. A version of this library is provided in the repository or can be found [here.](https://github.com/Nearoo/pygame-text-input)
 
 Then run FILENAME with Python 3.6 or newer, and an application window should appear. 
 
