@@ -35,7 +35,7 @@ x
 ```
 These will be represented as eggs when an illustration is generated.
 
-A function is usually denoted with a "λ" lowercase lambda  symbol but for convience sake, we chose a "\" foward-slash. A basic function has two parts, the parameter and the body, which are both collections of variables:
+A function is usually denoted with a "λ" lowercase lambda  symbol but for convience sake, we chose a "\\" foward-slash. A basic function has two parts, the parameter and the body, which are both collections of variables:
 ```
 \<parameters>.<body>
 
