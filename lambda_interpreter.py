@@ -138,8 +138,7 @@ def genNodeList(node, nodelist):
 		nodelist = genNodeList(node.rhs, nodelist)
 	return nodelist
 
-def main():
-	first = input("Enter lambda calculus here:")
+def get_ast(first):
 	source = ""
 	#make sure that all chars in the input are accepted
 	for c in first:
@@ -165,5 +164,3 @@ def main():
 			print([n.toString() for n in nodelist])
 			i = input("Type n to continue or q to end: ")
 		print("FINAL REDUCTION: " + ast.toString())
-
-main()
