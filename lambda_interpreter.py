@@ -196,6 +196,8 @@ def get_ast(input):
 			err_msg = 'The lambda input had unsupported characters'
 			print(err_msg)
 			return False, err_msg
+	if(not(source[0] == '(' and source[len(source) - 1] != ')')):
+		source = '(' + source + ')'
 	if not checkGrammar(source):
 		err_msg = 'The lambda input is invalid syntax according to our grammar'
 		print(err_msg)
