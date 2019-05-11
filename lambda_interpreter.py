@@ -153,16 +153,18 @@ def multiparams(source):
 				j += 1
 			if not parenflag:
 				numVars = j - i
-				lhs = ""
+				lhs = list()
 				if(numVars != 2): #if there is more than one variable between the lambda and the . 
 					for n in range(1, numVars - 1):
-						lhs += '(λ' + source[(i + n + 1)]
+						lhs.append('(')
+						lhs.append('λ')
+						lhs.append(source[(i + n + 1)])
 					q = j
 					while(source[q] != ')'):
 						q += 1
-					parens = ""
+					parens = list()
 					for n in range(2, numVars):
-						parens += ')'
+						parens.append(')')
 					source = source[0:(i+2)] + lhs + source[j:(q + 1)] + parens + source[(q+1):]
 		i += 1
 	return source
