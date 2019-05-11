@@ -18,7 +18,6 @@ class Parser():
 
 	def parse(self):
 		result = self.term()
-		print(self.varlist)
 		self.lexer.match('EOF', self.lexer.token)
 		return result
 

@@ -74,7 +74,6 @@ def recursive_sub(old, new, node):
 	return old 
 
 def recursive_reduce(node):
-	print("VISITING " + node.toString())
 	if isinstance(node, AST.Identifier) or isinstance(node, AST.Abstraction):
 		return node
 	elif isinstance(node, AST.Application):
