@@ -117,6 +117,7 @@ def checkGrammar(source):
 		if source[i] == '\\' or source[i] == 'λ' or source[i] == '.':
 			if source[i] == '.':
 				if i + 1 < len(source) - 1 and source[i + 1] not in 'abcdefghijklmnopqrstuvwxyz\\λ(':
+					print(source[i + 1])
 					print("No variable, ( or λ after . at " + str(i))
 					return False
 			else:
@@ -152,23 +153,24 @@ def multiparams(source):
 				j += 1
 			if not parenflag:
 				numVars = j - i
-				lhs = list()
+				lhs = ""
 				if(numVars != 2): #if there is more than one variable between the lambda and the . 
 					for n in range(1, numVars - 1):
-						lhs.append('(')
-						lhs.append('λ')
-						lhs.append(source[(i + n + 1)])
+						lhs += '(λ' + source[(i + n + 1)]
 					q = j
 					while(source[q] != ')'):
 						q += 1
-					parens = list()
+					parens = ""
 					for n in range(2, numVars):
-						parens.append(')')
+						parens += ')'
 					source = source[0:(i+2)] + lhs + source[j:(q + 1)] + parens + source[(q+1):]
 		i += 1
 	return source
 
+print(multiparams('(λxy.x)'))
+
 def get_ast(input):
+	input = [p for p in input if p != ' ']
 	source = ""
 	for c in input:
 		if c in 'abcdefghijklmnopqrstuvwxyz\\.()λ ':
@@ -177,7 +179,6 @@ def get_ast(input):
 			err_msg = 'The lambda input had unsupported characters'
 			print(err_msg)
 			return False, err_msg
-	source = [p for p in source if p != ' ']  # strip whitespace
 	if not checkGrammar(source):
 		err_msg = 'The lambda input is invalid syntax according to our grammar'
 		print(err_msg)
