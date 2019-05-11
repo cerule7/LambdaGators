@@ -138,28 +138,7 @@ def genNodeList(node, nodelist):
 		nodelist = genNodeList(node.rhs, nodelist)
 	return nodelist
 
-def get_ast(input):
-	source = ""
-	for c in input:
-		if c in 'abcdefghijklmnopqrstuvwxyz\\.()λ ':
-			source = source + c
-		else:
-			err_msg = 'The lambda input had unsupported characters'
-			print(err_msg)
-			return False, err_msg
-	source = [p for p in source if p != ' ']  # strip whitespace
-	if not checkGrammar(source):
-		err_msg = 'The lambda input is invalid syntax according to our grammar'
-		print(err_msg)
-		return False, err_msg
-	lexer = Lexer(source)
-	lexer.token = lexer.nextToken()
-	parser = lambda_parser.Parser(lexer)
-	ast = parser.parse()
-	return True, ast
-
-def main():
-	first = input("Enter lambda calculus here:")
+def get_ast(first):
 	source = ""
 	#make sure that all chars in the input are accepted
 	for c in first:
@@ -176,10 +155,6 @@ def main():
 		lexer.token = lexer.nextToken() #feed in first token
 		parser = lambda_parser.Parser(lexer) 
 		ast = parser.parse() #parser returns topmost AST node
-		print(ast.toString())
-		nodelist = genNodeList(ast, [])
-		print("NODES IN TERM: ")
-		print([n.toString() for n in nodelist])
 		i = input("Type n to continue or q to end: ") #will change later to work with pygame
 		while(i != 'q'):
 			ast = betareduce(ast)
