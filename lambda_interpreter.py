@@ -96,39 +96,41 @@ def betareduce(term):
 		return recursive_reduce(term)
 
 def checkGrammar(source):
-    #check parens matching
-    s = list()
-    balanced = True
-    index = 0
-    temp = [x for x in source if x == '(' or x == ')']
-    while index < len(temp) and balanced:
-    	c = temp[index]
-    	if c == '(':
-    		s.append(c)
-    	else:
-    		if len(s) == 0:
-    			balanced = False
-    		else:
-    			s.pop()
-    	index += 1
-    #correct lambda and dot placement 
-    if len(source) == 1 and (source[0] == '\\' or source[0] == 'λ' or source[0] == '.'):
-    	return False
-    for i in range(0, len(source) - 1):
-    	if source[i] == '\\' or source[i] == 'λ' or source[i] == '.':
-    		if source[i] == '.':
-	    		if i + 1 < len(source) - 1 and source[i + 1] not in 'abcdefghijklmnopqrstuvwxyz\\λ(':
-	    			print("No variable, ( or λ after . at " + str(i))
-	    			return False
-	    	else:
-	    		b = False
-	    		for j in range(i + 1, len(source) - 1):
-	    			if source[j] == '.':
-	    				b = True
-	    		if not b:
-	    			print("No . after \\ at " + str(i))
-	    			return False
-    return (balanced and len(s) == 0)
+	#check parens matching
+	s = list()
+	balanced = True
+	index = 0
+	temp = [x for x in source if x == '(' or x == ')']
+	while index < len(temp) and balanced:
+		c = temp[index]
+		if c == '(':
+			s.append(c)
+		else:
+			if len(s) == 0:
+				balanced = False
+			else:
+				s.pop()
+		index += 1
+	#correct lambda and dot placement 
+	if len(source) == 1 and (source[0] == '\\' or source[0] == 'λ' or source[0] == '.'):
+		return False
+	for i in range(0, len(source) - 1):
+		if source[i] == '\\' or source[i] == 'λ' or source[i] == '.':
+			if source[i] == '.':
+				if i + 1 < len(source) - 1 and source[i + 1] not in 'abcdefghijklmnopqrstuvwxyz\\λ(':
+					print("No variable, ( or λ after . at " + str(i))
+					return False
+			else:
+				b = False
+				j = i + 1
+				while(j < len(source)):
+					if source[j] == '.':
+						b = True
+					j += 1
+				if not b:
+					print("No . after \\ at " + str(i))
+					return False
+	return (balanced and len(s) == 0)
 
 def genNodeList(node, nodelist):
 	if isinstance(node, AST.Identifier) or isinstance(node, AST.Abstraction):
@@ -137,6 +139,33 @@ def genNodeList(node, nodelist):
 		nodelist = genNodeList(node.lhs, nodelist)
 		nodelist = genNodeList(node.rhs, nodelist)
 	return nodelist
+
+def multiparams(source):
+	i = 0
+	while(i < len(source)):
+		if source[i] in '\\λ':
+			j = i
+			parenflag = False
+			while(source[j] != '.'):
+				if(source[j] == '('): #nested lambda
+					parenflag = True
+					break
+				j += 1
+			if not parenflag:
+				numVars = j - i
+				lhs = ""
+				if(numVars != 2): #if there is more than one variable between the lambda and the . 
+					for n in range(1, numVars - 1):
+						lhs += '(λ' + source[(i + n + 1)]
+					q = j
+					while(source[q] != ')'):
+						q += 1
+					parens = ""
+					for n in range(2, numVars):
+						parens += ')'
+					source = source[0:(i+2)] + lhs + source[j:(q + 1)] + parens + source[(q+1):]
+		i += 1
+	return source
 
 def get_ast(first):
 	source = ""
@@ -151,6 +180,7 @@ def get_ast(first):
 	if not checkGrammar(source):
 		print("Incorrect syntax")
 	else:
+		source = multiparams(source)
 		lexer = Lexer(source)
 		lexer.token = lexer.nextToken() #feed in first token
 		parser = lambda_parser.Parser(lexer) 
