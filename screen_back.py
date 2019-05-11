@@ -208,6 +208,7 @@ class App:
         total_y_seperation = SEPARATION_DISTANCE * (max_row - 1)
         max_x_alligators = max_x_eggs = -1
         max_y_alligators = max_y_eggs = -1
+        objects_in_each_row = {}
         for row in range(max_row):
             curr_row_alligators = 0
             curr_row_eggs = 0
@@ -222,6 +223,7 @@ class App:
                     curr_row_eggs += 1
                 else:
                     raise Exception
+            objects_in_each_row[row] = (curr_row_alligators, curr_row_eggs)
             max_x_alligators = max(max_x_alligators, curr_row_alligators)
             max_x_eggs = max(max_x_eggs, curr_row_eggs)
 
@@ -253,7 +255,7 @@ class App:
         y_offset = drawing_y
         for row in range(max_row):
             curr_row_max_height = surf_height
-            x_offset = drawing_x
+            x_offset = drawing_x + (drawing_width - surf_width * (objects_in_each_row[row][0] * width_ratio + objects_in_each_row[row][1]))/2
             for col in range(max_col):
                 try:
                     curr_surf = self.alligator_surfs.pop((row, col))
