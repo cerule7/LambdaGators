@@ -93,7 +93,13 @@ class App:
                 self.input_box.typing = False
 
             if self.next_button.collidepoint(mouse_pos):
-                self.parse_search_box_input(True)
+                if self.lambda_index == len(self.lambda_array)-1:
+                    self.parse_search_box_input(True)
+                else:
+                    self.lambda_index = min(self.lambda_index+1, len(self.lambda_array)-1)
+                    self.alligator_surfs = self.lambda_array[self.lambda_index][2]
+                    self.input_box.input_string = self.lambda_array[self.lambda_index][0]
+                    self.input_box.update([])
             elif self.prev_button.collidepoint(mouse_pos):
                 if self.lambda_index > 0:
                     self.lambda_index = max(self.lambda_index-1, 0)
@@ -193,10 +199,12 @@ class App:
             self.alligator_surfs[(x, y)] = self.img_lib[ast.param][ALIVE_ALLIGATOR_IMG_KEY]
             self.generate_surfaces(ast.body, x + 1, y)
         elif isinstance(ast, lambda_ast.Application):
-            self.generate_surfaces(ast.lhs, x, y)
+            y = self.generate_surfaces(ast.lhs, x, y)
             self.generate_surfaces(ast.rhs, x, y + 1)
+            return y+1
         else:
             raise Exception
+        return y
 
     def resize_surfaces(self):
         coordinates = self.alligator_surfs.keys()
