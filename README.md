@@ -13,10 +13,8 @@ Prequisites for running the FILENAME are provided below.
 ### Prerequisites ###
 The libraries our project uses are 
 
-```
 [Pygame](https://www.pygame.org/)
 [Pygame_TextInput](https://github.com/Nearoo/pygame-text-input)
-```
 
 To install these libraries, there exists a pip install for Pygame but not Pygame_TextInput. A version of this library is provided in the repository or can be found [here.](https://github.com/Nearoo/pygame-text-input)
 
