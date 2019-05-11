@@ -56,15 +56,14 @@ class Lexer(): #this is responsible for tokenizing input
 		if(self.typeMatches(toktype)):
 			self.token = self.nextToken()
 			return True
-		else:
-			return False
+		return False
 
 def isValue(node):
 	return isinstance(node, AST.Abstraction)
 
 def recursive_sub(old, new, node):
 	if isinstance(old, AST.Identifier) and old.name == node:
-			return new
+		return new
 	elif isinstance(old, AST.Application):
 		old.lhs = recursive_sub(old.lhs, new, node)
 		old.rhs = recursive_sub(old.rhs, new, node)
