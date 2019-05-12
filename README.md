@@ -6,12 +6,12 @@ For CS-314 Principles of Programming Languages Spring 2019 with Professor Ames. 
 We would like to acknowledge Bret Victor for [the initial concept.](http://worrydream.com/AlligatorEggs/) This is the same source that Professor Ames used in class. As well, we would like to thank Silas Gyger for his open source [Pygame_TextInput.py module.](https://github.com/Nearoo/pygame-text-input)
 
 ## Getting Started ##
-There are two ways to install our project: downloading the executable or downloading the repository and running FILENAME.
+Start by downloading the repository and running LambdaGators.py.
 
-Prequisites for running the FILENAME are provided below. 
+Prequisites for running the LambdaGators.py are provided below. 
 
 ### Prerequisites ###
-The libraries our project uses are 
+The libraries our project uses are: 
 
 [Pygame](https://www.pygame.org/)
 
